@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="duke" class="com.springinaction.springidol.performer.Juggler"/>
+
+    <bean id="poeticDuke" class="com.springinaction.springidol.performer.PoeticJuggler">
+        <constructor-arg value="15"/>
+        <constructor-arg ref="sonnet29"/>
+    </bean>
+
+    <bean id="sonnet29" class="com.springinaction.springidol.poem.Sonnet29"/>
+
+    <util:list id="songList">
+        <bean class="com.springinaction.springidol.other.Song">
+            <constructor-arg value="That Old Black Magic" />
+            <constructor-arg value="Arlen and Mercer" />
+            <constructor-arg value="That old black magic has me in its spell..." />
+        </bean>
+        <bean class="com.springinaction.springidol.other.Song">
+            <constructor-arg value="Every Little Thing She Does is Magic" />
+            <constructor-arg value="Sting" />
+            <constructor-arg value="Though Ive tried before to tell her..." />
+        </bean>
+        <bean class="com.springinaction.springidol.other.Song">
+            <constructor-arg value="Magic Carpet Ride" />
+            <constructor-arg value="Moreve and Kay" />
+            <constructor-arg value="I like to dream yes, yes, right between my sound machine..." />
+        </bean>
+    </util:list>
+
+    <bean id="magicSongBook" class="com.springinaction.springidol.other.SongBook">
+        <constructor-arg value="#{songList.![title]}"/>
+    </bean>
+
+    <bean id="saxophone" class="com.springinaction.springidol.instrument.Saxophone"/>
+    <bean id="piano" class="com.springinaction.springidol.instrument.Piano"/>
+    <bean id="guitar" class="com.springinaction.springidol.instrument.Guitar"/>
+    <bean id="cymbal" class="com.springinaction.springidol.instrument.Cymbal"/>
+    <bean id="harmonica" class="com.springinaction.springidol.instrument.Harmonica"/>
+
+    <bean id="kenny" class="com.springinaction.springidol.performer.Instrumentalist">
+        <property name="song" value="Jingle Bells"/>
+        <property name="instrument">
+            <bean class="com.springinaction.springidol.instrument.Saxophone"/>
+        </property>
+    </bean>
+
+    <bean id="carl" class="com.springinaction.springidol.performer.Instrumentalist">
+        <property name="song" value="#{kenny.song ?: 'Greensleeves'}"/>
+        <property name="instrument" value="#{carl.song == 'Jingle Bells' ? piano : saxophone}"/>
+    </bean>
+
+    <bean id="ricky" class="com.springinaction.springidol.performer.Instrumentalist">
+        <property name="song" value="#{magicSongBook.pickASong()?.toUpperCase()}"/>
+        <property name="instrument" ref="guitar"/>
+    </bean>
+
+    <bean id="hank" class="com.springinaction.springidol.performer.OneManBand">
+        <property name="instruments">
+            <list>
+                <ref bean="guitar"/>
+                <ref bean="cymbal"/>
+                <ref bean="harmonica"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="terry" class="com.springinaction.springidol.performer.OneManBandWithMap">
+        <property name="instruments">
+            <map>
+                <entry key="GUITAR" value-ref="guitar"/>
+                <entry key="CYMBAL" value-ref="cymbal"/>
+                <entry key="HARMONICA" value-ref="harmonica"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="stage" class="com.springinaction.springidol.other.Stage" factory-method="getInstance"/>
+
+    <bean id="ticket" class="com.springinaction.springidol.other.Ticket" scope="prototype"/>
+
+    <bean id="auditorium" class="com.springinaction.springidol.other.Auditorium"
+          init-method="turnOnLights" destroy-method="turnOffLights"/>
+
+    <bean id="null" class="com.springinaction.springidol.other.NullTest">
+        <property name="someNonNullProperty"><null/></property>
+    </bean>
+
+    <bean id="expressions" class="com.springinaction.springidol.other.ExpressionInjection">
+        <property name="multiplier" value="#{T(java.lang.Math).PI}"/>
+        <property name="randomNumber" value="#{T(java.lang.Math).random()}"/>
+        <property name="adjustedAmount" value="#{expressions.total + 42}"/>
+        <property name="circumference" value="#{2 * T(java.lang.Math).PI * expressions.radius}"/>
+        <property name="average" value="#{expressions.total / expressions.count}"/>
+        <property name="remainder" value="#{expressions.total % expressions.count}"/>
+        <property name="area" value="#{T(java.lang.Math).PI * expressions.radius ^ 2}"/>
+        <property name="fullName" value="#{expressions.firstName + ' ' + expressions.lastName}"/>
+        <property name="equal" value="#{expressions.total == 100}"/>
+        <property name="hasCapacity" value="#{expressions.total le 10000}"/>
+        <property name="largeCircle" value="#{expressions.kind == 'circle' and expressions.perimeter gt 1000}"/>
+        <property name="outOfStock" value="#{not expressions.available}"/>
+        <property name="validMail" value="#{expressions.email matches '[a-zA-Z0-9._%+-]+@[a-zA-Z-0-9.-]+\\.com'}"/>
+    </bean>
+</beans>

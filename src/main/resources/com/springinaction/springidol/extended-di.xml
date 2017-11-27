@@ -36,4 +36,11 @@
         <lookup-method name="getInstrument" bean="guitar"/>
         <property name="song" value="Greensleeves"/>
     </bean>
+
+    <bean id="pianist" class="com.springinaction.springidol.performer.Instrumentalist" abstract="true">
+        <property name="song" value="Chopsticts"/>
+        <property name="instrument">
+            <bean class="com.springinaction.springidol.instrument.Piano"/>
+        </property>
+    </bean>
 </beans>

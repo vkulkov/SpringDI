@@ -5,7 +5,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="saxophone" class="com.springinaction.springidol.instrument.Saxophone"/>
-    <bean id="piano" class="com.springinaction.springidol.instrument.Piano"/>
     <bean id="guitar" class="com.springinaction.springidol.instrument.Guitar" scope="prototype"/>
 
     <bean id="baseSaxophonist" class="com.springinaction.springidol.performer.Instrumentalist" abstract="true">
@@ -59,5 +58,21 @@
 
     <bean id="contact" class="com.springinaction.springidol.propeditor.Contact">
         <property name="phoneNumber" value="888-555-1212"/>
+    </bean>
+
+    <bean class="com.springinaction.springidol.postprocess.Fuddifier"/>
+    <bean id="bugs" class="com.springinaction.springidol.postprocess.Rabbit">
+        <property name="description" value="That rascally rabbit"/>
+    </bean>
+    <bean id="beanCounter" class="com.springinaction.springidol.postprocess.BeanCounter"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="url" value="${database.url}" />
+        <property name="driverClassName" value="${database.driver}" />
+        <property name="username" value="${database.user}" />
+        <property name="password" value="${database.password}" />
+    </bean>
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="jdbc.properties"/>
     </bean>
 </beans>

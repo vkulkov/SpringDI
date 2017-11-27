@@ -23,4 +23,17 @@
         <property name="instrument" ref="guitar"/>
     </bean>
 
+    <bean id="harry" class="com.springinaction.springidol.performer.Magician">
+        <property name="magicBox" ref="magicBox"/>
+        <property name="magicWords" value="Bippity boppity boo"/>
+    </bean>
+    <bean id="magicBox" class="com.springinaction.springidol.magic.MagicBoxImpl">
+        <replaced-method name="getContents" replacer="tigerReplacer"/>
+    </bean>
+    <bean id="tigerReplacer" class="com.springinaction.springidol.magic.TigerReplacer"/>
+
+    <bean id="john" class="com.springinaction.springidol.performer.InstrumentalistWithoutInstrument">
+        <lookup-method name="getInstrument" bean="guitar"/>
+        <property name="song" value="Greensleeves"/>
+    </bean>
 </beans>

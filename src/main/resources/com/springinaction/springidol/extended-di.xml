@@ -75,4 +75,6 @@
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="jdbc.properties"/>
     </bean>
+
+    <bean id="refreshListener" class="com.springinaction.springidol.observer.RefreshListener"/>
 </beans>

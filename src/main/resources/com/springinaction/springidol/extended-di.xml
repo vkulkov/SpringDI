@@ -4,12 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="saxophone" class="com.springinaction.springidol.instrument.Saxophone"/>
+    <bean id="piano" class="com.springinaction.springidol.instrument.Piano"/>
+    <bean id="guitar" class="com.springinaction.springidol.instrument.Guitar" scope="prototype"/>
+
     <bean id="baseSaxophonist" class="com.springinaction.springidol.performer.Instrumentalist" abstract="true">
         <property name="instrument" ref="saxophone"/>
         <property name="song" value="Jingle Bells"/>
     </bean>
 
-    <bean id="kenny" parent="baseSaxophonist"/>
+    <bean id="kenny2" parent="baseSaxophonist"/>
     <bean id="david" parent="baseSaxophonist"/>
     <bean id="frank" parent="baseSaxophonist">
         <property name="song" value="Mary had a little Lamb"/>
@@ -42,5 +46,18 @@
         <property name="instrument">
             <bean class="com.springinaction.springidol.instrument.Piano"/>
         </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="com.springinaction.springidol.propeditor.PhoneNumber"
+                       value="com.springinaction.springidol.propeditor.PhoneEditor"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="contact" class="com.springinaction.springidol.propeditor.Contact">
+        <property name="phoneNumber" value="888-555-1212"/>
     </bean>
 </beans>

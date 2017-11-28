@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/lang
+       http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+
+    <bean id="coconut" class="com.springinaction.springidol.scripting.Coconut">
+        <property name="lime" ref="groovyLime"/>
+    </bean>
+    <bean id="lime" class="com.springinaction.springidol.scripting.LimeImpl"/>
+
+    <!--<lang:jruby id="rubyLime"-->
+                <!--script-source="classpath:com/springinaction/springidol/scripting/Lime.rb"-->
+                <!--script-interfaces="com.springinaction.springidol.scripting.Lime"/>-->
+
+    <lang:groovy id="groovyLime"
+                 script-source="classpath:com/springinaction/springidol/scripting/Lime.groovy"/>
+
+    <lang:bsh id="beanShellLime"
+              script-source="classpath:com/springinaction/springidol/scripting/Lime.bsh"
+              script-interfaces="com.springinaction.springidol.scripting.Lime"/>
+
+    <lang:groovy id="groovyCoconut"
+                 script-source="com/springinaction/springidol/scripting/Coconut.groovy">
+        <lang:property name="lime" ref="lime"/>
+    </lang:groovy>
+
+</beans>
